@@ -77,32 +77,41 @@ const saveWinning = () => {
 };
 
 const renderLottoContent = () => {
-  const lottoCount = lottoMachine.getLottoCount();
   const lottos = lottoMachine.getLottos();
 
-  count.innerHTML = lottoCount;
-  lottoList.innerHTML = lottos
-    .map(
-      (lotto) =>
-        `<div id="lotto" class="lotto-container">
+  count.insertAdjacentHTML('afterbegin', lottoMachine.getLottoCount());
+  lottoList.insertAdjacentHTML(
+    'afterbegin',
+    lottos
+      .map(
+        (lotto) =>
+          `<div id="lotto" class="lotto-container">
         <div class="lotto-image">🎟</div>
         <div id="lottoNumbers" class="lotto-numbers normal-font">${lotto.join(
           ', '
         )}</div>
       </div>`
-    )
-    .join('');
+      )
+      .join('')
+  );
   lottoContent.removeAttribute('hidden');
 };
 
 const renderWinningNumebersInput = () => {
-  winningNumbersGroup.innerHTML = [...Array(MAGIC_NUMBER.winningNumberCount)]
-    .map(() => '<input class="number-input" type="number" required/>')
-    .join('');
+  winningNumbersGroup.insertAdjacentHTML(
+    'afterbegin',
+    [...Array(MAGIC_NUMBER.winningNumberCount)]
+      .map(() => '<input class="number-input" type="number" required/>')
+      .join('')
+  );
 };
 
 const renderResult = (ranks) => {
-  resultListContainer.innerHTML = RANK_INFORMATIONS.reverse()
+  const reversedRankInformations = JSON.parse(
+    JSON.stringify(RANK_INFORMATIONS)
+  ).reverse();
+
+  resultListContainer.innerHTML = reversedRankInformations
     .map((rankInformation, index) => {
       return `<div class="result-list space-between">
     <p class="result-item">${rankInformation.matched}</p>
